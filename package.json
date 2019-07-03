@@ -8,6 +8,8 @@
     "@types/react-burger-menu": "^2.2.5",
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.4",
+    "mobx": "^5.10.1",
+    "mobx-react": "^6.1.1",
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
     "react-dom": "^16.8.6",
