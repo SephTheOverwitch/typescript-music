@@ -5,10 +5,15 @@ import Sidebar from './components/Sidebar';
 import Welcome from './components/Welcome';
 import Clock from './components/Clock';
 import MusicList from './components/MusicList';
+import MusicStore from './stores/MusicStore';
+import { Provider } from 'mobx-react';
+
+let musicStore: MusicStore = new MusicStore()
 
 class App extends React.Component {
   render() {
     return (
+      <Provider musicStore={musicStore}>
       <Router>
         <div id="App">
           <Sidebar pageWrapId={"page-wrap"} outerContainerId={"App"}/>
@@ -20,6 +25,7 @@ class App extends React.Component {
           </div>
         </div>
       </Router>
+      </Provider>
     );
   }
 }

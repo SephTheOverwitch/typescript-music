@@ -1,15 +1,18 @@
 import React from 'react';
+import {observer, inject} from 'mobx-react';
+import MusicStore from '../stores/MusicStore';
 
-let musicList: string[];
-
-musicList = ["title1", "title2", "title3"]
-
-class MusicList extends React.Component<{}, {}> {
+interface IProps {
+    musicStore: MusicStore;
+}
+@inject("musicStore")
+@observer
+class MusicList extends React.Component<IProps> {
 
     render() {
         return (
             <ul>
-                {musicList.map(function(name){
+                {this.props.musicStore.musicList.map(function(name: string){
                     return <li>{name}</li>
                 })}
             </ul>

@@ -1,10 +1,9 @@
 import React from 'react';
 
-type WelcomeProps = {
+interface IProps {
     name: string
 }
-
-class Welcome extends React.Component<WelcomeProps> {
+class Welcome extends React.Component<IProps> {
 
     render() {
         return <h1> Welcome {this.props.name} </h1>
