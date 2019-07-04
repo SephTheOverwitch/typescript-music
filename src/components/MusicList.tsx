@@ -9,12 +9,14 @@ interface IProps {
 @observer
 class MusicList extends React.Component<IProps> {
 
+    componentDidMount() {
+        this.props.musicStore.getAll();
+    }
+
     render() {
         return (
             <ul>
-                {this.props.musicStore.musicList.map(function(name: string){
-                    return <li>{name}</li>
-                })}
+                {this.props.musicStore.musicList}
             </ul>
         );
     };
