@@ -7,10 +7,20 @@ export default class MusicStore {
     @observable
     public musicList!: MusicModel;
     @observable
-    public filteredTrack!: Track;
+    public filter?: string;
 
     public getAll = () => {
         musicService.getAll().then(this.setMusicList)
+    }
+
+    @computed public get filteredTrack() {
+        if (!this.filter) {
+            return this.musicList.playlist;
+        }
+
+        return this.musicList.playlist.filter((item) =>  {
+            return item.author.match(this.filter!) || item.title.match(this.filter!);
+        });
     }
 
     @action
@@ -18,10 +28,8 @@ export default class MusicStore {
         this.musicList = new MusicModel(response.data)
     }
 
-    public filterMusicList = (searchString:string) => {
-        let filteredTrack = this.musicList.playlist.filter((item) => {
-            return item.author === searchString || item.title === searchString
-        });
-        this.filteredTrack = new Track(filteredTrack[0])
+    @action
+    public setFilter = (searchString: string) => {
+        this.filter = searchString;
     }
 }

@@ -16,7 +16,7 @@ class MusicList extends React.Component<IProps> {
     }
 
     onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.props.musicStore.filterMusicList(event.target.value)
+        this.props.musicStore.setFilter(event.target.value)
     }
 
     render() {
@@ -32,12 +32,9 @@ class MusicList extends React.Component<IProps> {
                     onChange={this.onChange}
                 />
                 <ul>
-                    {this.props.musicStore.musicList.playlist.map(track => {
-                        return <li>{track.author}</li>;
+                    {this.props.musicStore.filteredTrack.map(track => {
+                        return <li key={track.title}>{track.author}</li>;
                     })}
-                    <li>Filered list:</li>
-                    <li>{this.props.musicStore.filteredTrack ? this.props.musicStore.filteredTrack.author : 'Loading'}</li>
-                    <li>{this.props.musicStore.filteredTrack ?  this.props.musicStore.filteredTrack.title : 'Loading'}</li>
                 </ul>
             </>
         );
