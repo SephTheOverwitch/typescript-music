@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import {musicService, IMusicResponse} from '../services/MusicService';
 import MusicModel, { Track } from '../entities/MusicModel';
 import { AxiosResponse } from 'axios';
@@ -13,23 +13,15 @@ export default class MusicStore {
         musicService.getAll().then(this.setMusicList)
     }
 
-    public filter = (author: string) => {
-        musicService.getAll().then( (result) => {
-            this.filterMusicList(result, author)});
-    }
-
     @action
     private setMusicList = (response: AxiosResponse<IMusicResponse>) => {
         this.musicList = new MusicModel(response.data)
     }
 
-    @action
-    private filterMusicList = (response: AxiosResponse<IMusicResponse>, author:string) => {
-        this.musicList = new MusicModel(response.data)
+    public filterMusicList = (searchString:string) => {
         let filteredTrack = this.musicList.playlist.filter((item) => {
-            return item.author === author
+            return item.author === searchString || item.title === searchString
         });
-
         this.filteredTrack = new Track(filteredTrack[0])
     }
 }
