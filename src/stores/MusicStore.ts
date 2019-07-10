@@ -8,10 +8,16 @@ export default class MusicStore {
     public musicList!: MusicModel;
     @observable
     public filter?: string;
+    @observable
+    public selectedTrack!: Track;
 
     public getAll = () => {
         musicService.getAll().then(this.setMusicList)
     }
+
+    public getSelectedTrack = (track: string) => {
+        musicService.getSelectedTrack(track).then(this.setSelectedTrack)
+    } 
 
     @computed public get filteredTrack() {
         if (!this.filter) {
@@ -26,6 +32,11 @@ export default class MusicStore {
     @action
     private setMusicList = (response: AxiosResponse<IMusicResponse>) => {
         this.musicList = new MusicModel(response.data)
+    }
+
+    @action
+    private setSelectedTrack = (response: AxiosResponse<Track>) => {
+        this.selectedTrack = new Track(response.data)
     }
 
     @action

@@ -1,15 +1,18 @@
-import React, { ChangeEventHandler, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { observer, inject } from 'mobx-react';
 import MusicStore from '../stores/MusicStore';
-import { type } from 'os';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import MusicDetails from './MusicDetails';
+import { Track } from '../entities/MusicModel';
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     musicStore: MusicStore;
 }
 
 @inject("musicStore")
 @observer
 class MusicList extends React.Component<IProps> {
+
     componentDidMount() {
         console.log('componentDidMount')
         this.props.musicStore.getAll()
@@ -19,12 +22,14 @@ class MusicList extends React.Component<IProps> {
         this.props.musicStore.setFilter(event.target.value)
     }
 
+    openDetail = (track: Track) => {
+        this.props.history.push(`/musicList/details/${track.title}`)
+    }
+
     render() {
         if (!this.props.musicStore.musicList) {
             return <></>
         }
-
-
         return (
             <>
                 <input
@@ -33,9 +38,10 @@ class MusicList extends React.Component<IProps> {
                 />
                 <ul>
                     {this.props.musicStore.filteredTrack.map(track => {
-                        return <li key={track.title}>{track.author}</li>;
+                        return <li key={track.title} onClick={() => this.openDetail(track)}> {track.author} </li>;
                     })}
                 </ul>
+                <Route path={`/musicList/details/:title`} component={MusicDetails} />
             </>
         );
     };

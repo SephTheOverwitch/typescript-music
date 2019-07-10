@@ -1,3 +1,4 @@
+import { Track } from './../entities/MusicModel';
 import axios, { AxiosResponse } from 'axios';
 
 export interface IMusicResponse {
@@ -20,6 +21,22 @@ export default class MusicService {
             'headers': {
                 'Access-Control-Allow-Origin': '*'
             }
+        }).then((response) => {
+            console.log(response.data)
+            return response
+        })
+    }
+
+    public getSelectedTrack(title: string): Promise<AxiosResponse<ITrack>> {
+        console.log("I AM FETCHING SELECTED TRACK")
+
+        return axios.get<ITrack>(this.apiUrl + '/track', {
+            'params': {
+                'title': title
+            },
+            'headers': {
+                'Access-Control-Allow-Origin': '*'
+            },
         }).then((response) => {
             console.log(response.data)
             return response
