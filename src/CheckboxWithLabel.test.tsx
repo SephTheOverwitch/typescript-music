@@ -1,18 +1,29 @@
-import React from 'react';
-import { render, fireEvent, cleanup } from 'react-testing-library';
-import CheckboxWithLabel from './CheckboxWithLabel';
+import * as React from 'react';
+import Enzyme, { shallow, ShallowWrapper } from 'enzyme';
+import { create, ReactTestRenderer } from 'react-test-renderer';
 
-// automatically unmount and cleanup DOM after the test is finished.
-afterEach(cleanup);
+import CheckBox, { CheckBoxProp } from './CheckboxWithLabel';
 
-it('CheckboxWithLabel changes the text after click', () => {
-    const { queryByLabelText, getByLabelText } = render(
-        <CheckboxWithLabel labelOn="On" labelOff="Off" />,
-    );
+let wrapper: ShallowWrapper<CheckBoxProp>;
+let snapshot: ReactTestRenderer;
 
-    expect(queryByLabelText(/off/i)).toBeTruthy();
+beforeEach(() => {
+    const checkbox = <CheckBox labelOn="On" labelOff="Off" />;
 
-    fireEvent.click(getByLabelText(/off/i));
+    wrapper = shallow(checkbox);
+    snapshot = create(checkbox);
+});
 
-    expect(queryByLabelText(/on/i)).toBeTruthy();
+describe('<CheckBox />', () => {
+    test('it matches the snapshot', () => {
+        expect(snapshot.toJSON()).toMatchSnapshot();
+    });
+
+    it('it should toggle checkbox label after click event', () => {
+        expect(wrapper.text()).toEqual('Off');
+
+        wrapper.find('input').simulate('change');
+
+        expect(wrapper.text()).toEqual('On');
+    });
 });
