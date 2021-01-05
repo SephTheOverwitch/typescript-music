@@ -12,7 +12,7 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/react-sidebar": "^3.0.0",
     "@types/react-test-renderer": "^16.8.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "js-base64": "^2.5.1",
     "mobx": "^5.10.1",
     "mobx-react": "^6.1.1",
